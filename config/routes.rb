@@ -1,4 +1,25 @@
 Rails.application.routes.draw do
+
+  resources :users
+
+  get '/main' => 'users#new'
+
+  post '/login' => 'users#login'
+
+  get '/logout' => 'users#logout'
+
+  get '/dashboard/:id' => 'product#show'
+
+  get '/shoes' => 'product#index'
+
+  post '/products' => 'product#create'
+
+  get '/buy/:id' => 'product#buy'
+
+  get '/delete/:id' => 'product#destroy'
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,28 @@
+<a href="/dashboard/<%= @user.id %>">Go to Dashboard</a> | <a href="/logout">Logout</a>
+
+<h1>Hi <%= @user.first_name %>!</h1>
+
+<table>
+<thead>
+	<tr>
+		<th>Product</th>
+		<th>Seller</th>
+		<th>Date Posted</th>
+		<th>Amount</th>
+		<th>Action</th>
+	</tr>
+</thead>
+<tbody>
+<% @products.each do |p| %>
+	<% if !Purchase.exists?(product_id: p.id) %>
+	<tr>
+		<td><%= p.name %></td>
+		<td><%= User.find(p.user_id).full_name %></td>
+		<td><%= p.created_at %></td>
+		<td>$<%= p.amount %></td>
+		<td><a href="/buy/<%= p.id %>">Buy</a></td>
+	</tr>
+	<% end %>
+<% end %>
+</tbody>
+</table>

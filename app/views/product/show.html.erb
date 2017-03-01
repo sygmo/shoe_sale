@@ -1,0 +1,93 @@
+<a href="/shoes">Go to All Products</a> | <a href="/logout">Logout</a>
+
+<h1>Hi <%= @user.first_name %>!</h1>
+
+<h3>Sell Product</h3>
+<%= form_for @product, url: '/products' do |f| %>
+	<%= f.hidden_field :user_id, value: session[:logged_in_as] %>
+	Name: <%= f.text_field :name %><br>
+	Amount: <%= f.text_field :amount %><br>
+	<%= f.submit "Sell" %>
+<% end %>
+
+<hr>
+
+<h4>Your products which are not yet sold:</h4>
+<table>
+<thead>
+	<tr>
+		<th>Product</th>
+		<th>Date Posted</th>
+		<th>Amount</th>
+		<th>Action</th>
+	</tr>
+</thead>
+<tbody>
+<% @my_products.each do |p| %>
+	<% if !Purchase.exists?(product_id: p.id) or !Sale.exists?(product_id: p.id) %>
+	<tr>
+		<td><%= p.name %></td>
+		<td><%= p.created_at %></td>
+		<td>$<%= p.amount %></td>
+		<td><a href="/delete/<%= p.id %>">Remove</a></td>
+	</tr>
+	<% end %>
+<% end %>
+</tbody>
+</table>
+
+<hr>
+
+
+<h4>Sales:</h4>
+<table>
+<thead>
+	<tr>
+		<th>Product</th>
+		<th>Date Bought</th>
+		<th>Buyer</th>
+		<th>Amount</th>
+	</tr>
+</thead>
+<tbody>
+<% @sales.each do |s| %>
+	<tr>
+		<td><%= Product.find(s.product_id).name %></td>
+		<td><%= s.created_at %></td>
+		<td><%= User.find(s.buyer_id).full_name %></td>
+		<td>$<%= Product.find(s.product_id).amount %></td>
+	</tr>
+<% end %>
+</tbody>
+</table>
+
+<hr>
+
+<h4>Purchases:</h4>
+<table>
+<thead>
+	<tr>
+		<th>Product</th>
+		<th>Date Bought</th>
+		<th>Seller</th>
+		<th>Amount</th>
+	</tr>
+</thead>
+<tbody>
+<% @purchases.each do |p| %>
+	<tr>
+		<td><%= Product.find(p.product_id).name %></td>
+		<td><%= p.created_at %></td>
+		<td><%= User.find(p.seller_id).full_name %></td>
+		<td>$<%= Product.find(p.product_id).amount %></td>
+	</tr>
+<% end %>
+</tbody>
+</table>
+
+<hr>
+
+<!-- To do:
+- validations for product
+
+ -->

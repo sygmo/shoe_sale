@@ -1,0 +1,13 @@
+<a href="/shoes">Go to All Products</a> | <a href="/logout">Logout</a>
+
+<h1>Hi <%= @user.first_name %>!</h1>
+
+<h3>Sell Product</h3>
+<%= form_for @product, url: '/products' do |f| %>
+	<%= f.hidden_field :user_id, value: session[:logged_in_as] %>
+	<%= f.text_field :name %>
+	<%= f.text_field :amount %>
+	<%= f.submit "Sell" %>
+<% end %>
+
+<hr>
